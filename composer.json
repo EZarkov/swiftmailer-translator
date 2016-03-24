@@ -1,0 +1,22 @@
+{
+    "name": "clippings/swiftmailer-translator",
+    "description": "Extend Ddecorator plugin with option to modifity subject and body with given translated templates",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Evstati Zarkov",
+            "email": "evstati.zarkov@gmail.com",
+            "role": "Author"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CL\\Swiftmailer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CL\\Swiftmailer\\Test\\": "tests/src/"
+        }
+    }
+}
