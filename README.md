@@ -14,7 +14,7 @@ composer require clippings/swiftmailer-translator
 
 Usage
 -----
-<code>
+```php
  $users = [['email' => 'example@abv.bg', 'firstName' => 'Иван', 'lastName' => 'Петров'],
            ['email' => 'example@mail.bg', 'firstName' => 'Наташа', 'lastName' => 'Романова', 'lang' => 'ru'],
            ['email' => 'example@example.com', 'firstName' => 'Jon', 'lastName' => 'Doe']];
@@ -51,7 +51,7 @@ foreach ($users as $address => $name) {
 	}
 	$mailer->send($message, $failedRecipients);
 } 
-</code>
+```
 License
 -------
 
