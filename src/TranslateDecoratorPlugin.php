@@ -7,7 +7,7 @@ namespace CL\Swiftmailer;
  * @author    Evstati Zarkov <evstati.zarkov@gmail.com>
  * @copyright 2016, root
  * @license   http://spdx.org/licenses/BSD-3-Clause
- * @version 0.1
+ * @version 0.11
  */
 class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
     private $_translates;
@@ -30,13 +30,15 @@ class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlug
      */
     public function beforeSendPerformed(Swift_Events_SendEvent $evt) {
         $langIsFound = false;
+
         $message = $evt->getMessage();
 
-        $to = array_keys($message->getTo());
-        $address = array_shift($to);
-        if ($lang = $this->getReplacementsFor($address)['lang']) {
-            $langIsFound = true;
-        }
+		$to = array_keys($message->getTo());
+		$address = array_shift($to);
+		if (isset($this->getReplacementsFor($address)['lang']) ) {
+            $lang = $this->getReplacementsFor($address)['lang'];
+			$langIsFound = true;
+		}
 
         if (!$langIsFound) {
             list($user, $mailDomain) = explode('@', $address);
@@ -50,17 +52,16 @@ class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlug
 
             if ($subjectTranslated = $this->_getTranslateFor($lang, 'subject')) {
                 /** @var  $header Swift_Mime_Header */
-
-
                 $this->setDefaultSubject($message->getSubject());
-
                 $message->setSubject($subjectTranslated);
-
+                $this->_msgTranslated = true;
             }
+
 
             if ($bodyReplaced = $this->_getTranslateFor($lang, 'body')) {
                 $this->setDefaultBody($message->getBody());
                 $message->setBody($bodyReplaced);
+                $this->_msgTranslated = true;
             }
         }
 
