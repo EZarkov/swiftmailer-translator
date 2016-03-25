@@ -1,11 +1,7 @@
 Swiftmailer Translator
 ======================
 
-[![Build Status](https://travis-ci.org/clippings/swiftmailer-translator.svg?branch=master)](https://travis-ci.org/clippings/swiftmailer-translator)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clippings/swiftmailer-translator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clippings/swiftmailer-translator/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/clippings/swiftmailer-translator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clippings/swiftmailer-translator/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/clippings/swiftmailer-translator/v/stable)](https://packagist.org/packages/clippings/swiftmailer-translator)
-Extend Ddecorator plugin with option to modifity subject and body with given translated templates
+Extend decorator plugin with option to modify subject and body with given translated templates
 
 Installation
 ------------
@@ -18,6 +14,43 @@ composer require clippings/swiftmailer-translator
 
 Usage
 -----
+
+ $users = [['email' => 'example@abv.bg', 'firstName' => 'Иван', 'lastName' => 'Петров'],
+           ['email' => 'example@mail.bg', 'firstName' => 'Наташа', 'lastName' => 'Романова', 'lang' => 'ru'],
+           ['email' => 'example@example.com', 'firstName' => 'Jon', 'lastName' => 'Doe']];
+ $replacements = [];
+ 
+ foreach ($users as $user) {
+     $replacements[$user['email']] = ['{FirstName}' => $user['firstName'], '{LastName}' => $user['lastName']];
+        if (isset($user['lang'])){
+            $replacements[$user['email']]['lang'] = $user['lang'];
+            }
+        }
+        
+ $translates = ['bg' => ['subject' => 'Важно съобщение за {FirstName} {LastName}',
+                    'body'=>'Здравейте {FirstName}, искаме да ви се информираме за новия продукт който предлагаме'],
+                'ru'=>['subject' => 'Важное сообщение {FirstName} {LastName}',
+                    'body'=>'Здравствуйте {FirstName}, мы хотим получить информацию о новом продукте, который мы предлагаем.']];
+                    
+$transport = Swift_SmtpTransport::newInstance('smtp.example.com', 465, 'ssl')->setUsername('username')->setPassword('password');
+$mailer = Swift_Mailer::newInstance($transport);
+$decorator = new Swift_Plugins_TranslateDecoratorPlugin($translates, $replacements);
+$mailer->registerPlugin($decorator);
+
+$message = Swift_Message::newInstance()
+	->setSubject('Important message for  {FirstName}')
+	->setBody(
+		'Hello {FirstName}, we want to  inform you about new product that we offer.');
+
+$failedRecipients = [];
+foreach ($users as $address => $name) {
+	if (is_int($address)) {
+		$message->setTo($name['email']);
+	} else {
+		$message->setTo(array($address['email'] => $name));
+	}
+	$mailer->send($message, $failedRecipients);
+} 
 
 License
 -------
