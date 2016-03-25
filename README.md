@@ -14,6 +14,7 @@ composer require clippings/swiftmailer-translator
 
 Usage
 -----
+
 ```php
  $users = [['email' => 'example@abv.bg', 'firstName' => 'Иван', 'lastName' => 'Петров'],
            ['email' => 'example@mail.bg', 'firstName' => 'Наташа', 'lastName' => 'Романова', 'lang' => 'ru'],
@@ -32,15 +33,19 @@ Usage
                 'ru'=>['subject' => 'Важное сообщение {FirstName} {LastName}',
                     'body'=>'Здравствуйте {FirstName}, мы хотим получить информацию о новом продукте, который мы предлагаем.']];
                     
-$transport = Swift_SmtpTransport::newInstance('smtp.example.com', 465, 'ssl')->setUsername('username')->setPassword('password');
+                    
+$transport = Swift_SmtpTransport::newInstance('smtp.example.com', 465, 'ssl')
+                                                ->setUsername('username')
+                                                ->setPassword('password');
+                                                
 $mailer = Swift_Mailer::newInstance($transport);
 $decorator = new Swift_Plugins_TranslateDecoratorPlugin($translates, $replacements);
 $mailer->registerPlugin($decorator);
 
 $message = Swift_Message::newInstance()
-	->setSubject('Important message for  {FirstName}')
+	->setSubject('Important message for  {FirstName} {LastName}')
 	->setBody(
-		'Hello {FirstName}, we want to  inform you about new product that we offer.');
+		'Hello {FirstName}, we want to inform you about new product that we offer.');
 
 $failedRecipients = [];
 foreach ($users as $address => $name) {
