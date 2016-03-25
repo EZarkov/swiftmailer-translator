@@ -1,6 +1,8 @@
 <?php
 
 namespace CL\Swiftmailer;
+use Swift_Events_SendEvent;
+use Swift_Plugins_DecoratorPlugin;
 
 /**
  *
@@ -9,7 +11,7 @@ namespace CL\Swiftmailer;
  * @license   http://spdx.org/licenses/BSD-3-Clause
  * @version 0.11
  */
-class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
+class TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
     private $_translates;
     private $_msgTranslated = false;
     private $_defaultSubject;
