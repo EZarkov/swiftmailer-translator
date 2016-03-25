@@ -52,14 +52,14 @@ class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlug
 
             if ($subjectTranslated = $this->_getTranslateFor($lang, 'subject')) {
                 /** @var  $header Swift_Mime_Header */
-                $this->setDefaultSubject($message->getSubject());
+                $this->_setDefaultSubject($message->getSubject());
                 $message->setSubject($subjectTranslated);
                 $this->_msgTranslated = true;
             }
 
 
             if ($bodyReplaced = $this->_getTranslateFor($lang, 'body')) {
-                $this->setDefaultBody($message->getBody());
+                $this->_setDefaultBody($message->getBody());
                 $message->setBody($bodyReplaced);
                 $this->_msgTranslated = true;
             }
@@ -117,7 +117,7 @@ class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlug
     /**
      * @param mixed $defaultBody
      */
-    private function setDefaultBody($defaultBody) {
+    private function _setDefaultBody($defaultBody) {
         if ($this->_defaultBody != $defaultBody) {
             $this->_defaultBody = $defaultBody;
         }
@@ -126,7 +126,7 @@ class Swift_Plugins_TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlug
     /**
      * @param mixed $defaultSubject
      */
-    public function setDefaultSubject($defaultSubject) {
+    private function _setDefaultSubject($defaultSubject) {
         if ($this->_defaultSubject != $defaultSubject) {
             $this->_defaultSubject = $defaultSubject;
         }
