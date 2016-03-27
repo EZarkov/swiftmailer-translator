@@ -16,9 +16,11 @@ class TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
     private $_msgTranslated = false;
     private $_defaultSubject;
     private $_defaultBody;
+    private $_languageKey;
 
-    public function __construct($translates, $replacements) {
+    public function __construct($translates, $replacements, $languageKey = 'lang') {
         $this->setTranslates($translates);
+        $this->_languageKey = $languageKey;
         parent::__construct($replacements);
     }
 
@@ -35,12 +37,12 @@ class TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
 
         $message = $evt->getMessage();
 
-		$to = array_keys($message->getTo());
-		$address = array_shift($to);
-		if (isset($this->getReplacementsFor($address)['lang']) ) {
-            $lang = $this->getReplacementsFor($address)['lang'];
-			$langIsFound = true;
-		}
+        $to = array_keys($message->getTo());
+        $address = array_shift($to);
+        if (isset($this->getReplacementsFor($address)[$this->_languageKey])) {
+            $lang = $this->getReplacementsFor($address)[$this->_languageKey];
+            $langIsFound = true;
+        }
 
         if (!$langIsFound) {
             list($user, $mailDomain) = explode('@', $address);
@@ -52,15 +54,16 @@ class TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
 
         if ($this->_isTranslated($lang)) {
 
-            if ($subjectTranslated = $this->_getTranslateFor($lang, 'subject')) {
-                /** @var  $header Swift_Mime_Header */
+            if ($this->_getTranslateFor($lang, 'subject')) {
+                $subjectTranslated = $this->_getTranslateFor($lang, 'subject');
                 $this->_setDefaultSubject($message->getSubject());
                 $message->setSubject($subjectTranslated);
                 $this->_msgTranslated = true;
             }
 
 
-            if ($bodyReplaced = $this->_getTranslateFor($lang, 'body')) {
+            if ($this->_getTranslateFor($lang, 'body')) {
+                $bodyReplaced = $this->_getTranslateFor($lang, 'body');
                 $this->_setDefaultBody($message->getBody());
                 $message->setBody($bodyReplaced);
                 $this->_msgTranslated = true;
@@ -102,13 +105,7 @@ class TranslateDecoratorPlugin extends Swift_Plugins_DecoratorPlugin {
     private function _setMessageToDefault($message) {
         if ($this->_msgTranslated) {
             /** @var  $header Swift_Mime_Header */
-            foreach ($message->getHeaders()->getAll() as $header) {
-
-                if ($header->getFieldName() == 'Subject') {
-                    $this->setDefaultSubject($header->getFieldBodyModel());
-                    $header->setFieldBodyModel($this->_defaultSubject);
-                }
-            }
+            $message->setSubject($this->_defaultSubject);
 
             $message->setBody($this->_defaultBody);
         }
