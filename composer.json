@@ -18,5 +18,8 @@
         "psr-4": {
             "CL\\Swiftmailer\\Test\\": "tests/src/"
         }
+    },
+    "require": {
+        "swiftmailer/swiftmailer": "^5.4"
     }
 }
