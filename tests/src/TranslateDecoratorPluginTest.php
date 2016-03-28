@@ -21,20 +21,18 @@ class TranslateDecoratorPluginTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {
 
-        $this->_subject  = 'Important message for  {FirstName} {LastName}';
-        $this->_body = 'Hello {FirstName}, we want to  inform you about new product that we offer.';
+        $this->_subject  = 'Important message for {FirstName} {LastName}';
+        $this->_body = 'Hello {FirstName}, we want to inform you about new product that we offer.';
 
         $this->_replacements = [
             'example@abv.bg' => ['{FirstName}' => 'Иван', '{LastName}' => 'Петров'],
-            'example@mail.bg' =>[ '{FirstName}' => 'Наташа', '{LastName}' => 'Романова', 'lang' => 'ru'],
-            'example@example.com' =>[  '{FirstName}' => 'Jon', '{LastName}' => 'Doe'],
-        ];
+            'example@mail.bg' =>['{FirstName}' => 'Наташа', '{LastName}' => 'Романова', 'lang' => 'ru'],
+            'example@example.com' =>['{FirstName}' => 'Jon', '{LastName}' => 'Doe'],];
         $this->_translations = [
             'bg' => ['subject' => 'Важно съобщение за {FirstName} {LastName}',
                      'body'=>'Здравейте {FirstName}, искаме да ви се информираме за новия продукт който предлагаме'],
             'ru'=>['subject' => 'Важное сообщение {FirstName} {LastName}',
-                   'body'=>'Здравствуйте {FirstName}, мы хотим получить информацию о новом продукте, который мы предлагаем.']
-        ];
+                   'body'=>'Здравствуйте {FirstName}, мы хотим получить информацию о новом продукте, который мы предлагаем.']];
 
         $this->_decorator = new TranslateDecoratorPlugin($this->_translations, $this->_replacements);
         $this->_message = Swift_Message::newInstance();
@@ -87,11 +85,10 @@ class TranslateDecoratorPluginTest extends PHPUnit_Framework_TestCase {
         $this->_message->setTo('example@example.com');
         $this->_decorator->beforeSendPerformed($this->_event);
 
-        $this->assertEquals('Important message for  Jon Doe', $this->_message->getSubject());
-        $this->assertEquals('Hello Jon, we want to  inform you about new product that we offer.', $this->_message->getBody());
+        $this->assertEquals('Important message for Jon Doe', $this->_message->getSubject());
+        $this->assertEquals('Hello Jon, we want to inform you about new product that we offer.', $this->_message->getBody());
 
         $this->_decorator->sendPerformed($this->_event);
-
     }
 
     /**
@@ -155,9 +152,5 @@ class TranslateDecoratorPluginTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Здравствуйте Наташа, мы хотим получить информацию о новом продукте, который мы предлагаем.', $this->_message->getBody());
 
         $this->_decorator->sendPerformed($this->_event);
-
     }
-
-
-
 }
