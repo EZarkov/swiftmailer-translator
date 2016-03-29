@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Swiftmailer;
+namespace SwiftmailerTranslator;
 use Swift_Events_SendEvent;
 use Swift_Plugins_DecoratorPlugin;
 

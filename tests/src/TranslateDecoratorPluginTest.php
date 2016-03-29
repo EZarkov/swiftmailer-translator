@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\Swiftmailer\Test;
+namespace SwiftmailerTranslator;
 
 use PHPUnit_Framework_TestCase;
 use Swift_Message;
 use Swift_Events_SendEvent;
-use CL\Swiftmailer\TranslateDecoratorPlugin;
+use TranslateDecoratorPlugin;
 
 /**
  * @coversDefaultClass CL\Swiftmailer\TranslateDecoratorPlugin
