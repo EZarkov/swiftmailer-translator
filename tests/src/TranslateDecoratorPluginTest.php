@@ -5,7 +5,7 @@ namespace SwiftmailerTranslator\Test;
 use PHPUnit_Framework_TestCase;
 use Swift_Message;
 use Swift_Events_SendEvent;
-use TranslateDecoratorPlugin;
+use SwiftmailerTranslator\TranslateDecoratorPlugin;
 
 /**
  * @coversDefaultClass CL\Swiftmailer\TranslateDecoratorPlugin
