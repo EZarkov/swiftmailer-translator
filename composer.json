@@ -16,7 +16,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SwiftmailerTranslator\\": "tests/src/"
+            "SwiftmailerTranslator\\Test\\": "tests/src/"
         }
     },
     "require": {
