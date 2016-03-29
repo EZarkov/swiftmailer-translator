@@ -1,6 +1,6 @@
 <?php
 
-namespace SwiftmailerTranslator;
+namespace SwiftmailerTranslator\Test;
 
 use PHPUnit_Framework_TestCase;
 use Swift_Message;
