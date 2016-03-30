@@ -57,6 +57,13 @@ foreach ($users as $address => $name) {
 	$mailer->send($message, $failedRecipients);
 } 
 ```
+
+AUTOMATED TESTS
+---------------
+
+We use Travis-CI.org to run automated tests after every commit.
+[![Build Status](https://travis-ci.org/EZarkov/swiftmailer-translator.svg?branch=master)](https://travis-ci.org/EZarkov/swiftmailer-translator)
+
 License
 -------
 
